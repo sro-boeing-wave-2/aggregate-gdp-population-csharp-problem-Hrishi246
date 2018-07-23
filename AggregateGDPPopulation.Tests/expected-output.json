@@ -1,26 +1,26 @@
 {
- "South America": {
-  "GDP_2012": 2899.862,
-  "POPULATION_2012": 237.56
- },
- "Oceania": {
-  "GDP_2012": 1542.06,
-  "POPULATION_2012": 22.68
- },
+  "South America": {
+    "GDP_2012": 806.839966,
+    "POPULATION_2012": 2453.75
+  },
+  "Oceania": {
+    "GDP_2012": 1555.26,
+    "POPULATION_2012": 22.92
+  },
  "North America": {
-  "GDP_2012": 18586.34,
-  "POPULATION_2012": 464.01
+  "GDP_2012": 2264.18,
+  "POPULATION_2012": 17376.55
  },
- "Asia": {
-  "GDP_2012": 21621.197,
-  "POPULATION_2012": 3244.68
- },
- "Europe": {
-  "GDP_2012": 10361.3,
-  "POPULATION_2012": 269.17
- },
+  "Asia": {
+    "GDP_2012":10375.2295,
+    "POPULATION_2012": 14827.6006
+  },
+  "Europe": {
+    "GDP_2012": 2886.51978,
+    "POPULATION_2012": 8305.16
+  },
  "Africa": {
-  "GDP_2012": 390.919,
-  "POPULATION_2012": 51.2
+  "GDP_2012": 397.39,
+  "POPULATION_2012": 52.34
  }
 }
