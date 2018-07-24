@@ -33,7 +33,7 @@ namespace AggregateGDPPopulation
 
         public async Task Writer(Dictionary<string, Aggregate> finalsolution)
         {
-            string outputlocation = "D:/workspace/C# Assignments/aggregate-gdp-population-csharp-problem-Hrishi246/AggregateGDPPopulation/data/output.json";
+            string outputlocation = @"../../../../ AggregateGDPPopulation/data/output.json";
             string outputJsonString = JsonConvert.SerializeObject(finalsolution);
             using (StreamWriter writer = new StreamWriter(outputlocation))
             {
