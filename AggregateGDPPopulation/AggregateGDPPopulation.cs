@@ -33,7 +33,7 @@ namespace AggregateGDPPopulation
 
         public async Task Writer(Dictionary<string, Aggregate> finalsolution)
         {
-            string outputlocation = @"../../../../ AggregateGDPPopulation/data/output.json";
+            string outputlocation = @"../../../../AggregateGDPPopulation/data/output.json";
             string outputJsonString = JsonConvert.SerializeObject(finalsolution);
             using (StreamWriter writer = new StreamWriter(outputlocation))
             {
@@ -73,7 +73,7 @@ namespace AggregateGDPPopulation
             int POPULATION = Array.IndexOf(headers, "Population (Millions) 2012");
             // Console.WriteLine("{0} {1} {2}", IndexOfCountry, GDP, POPULATION);
 
-           
+
 
             for (int i = 1; i < InputData.Length - 1; i++)
             {
@@ -97,12 +97,12 @@ namespace AggregateGDPPopulation
 
                     }
                 }
-                catch
+                catch(Exception)
                 {
-                   
+                    Console.WriteLine("error");
                 }
-               
-               
+
+
 
 
 
@@ -113,7 +113,7 @@ namespace AggregateGDPPopulation
             await Writer(output);
             //var outputJsonString = JsonConvert.SerializeObject(output);
             ////Console.WriteLine(outputJsonString);
-           
+
             //try
             //{
             //    File.WriteAllText("D:/workspace/C# Assignments/aggregate-gdp-population-csharp-problem-Hrishi246/AggregateGDPPopulation/data/output.json", outputJsonString);
@@ -122,7 +122,7 @@ namespace AggregateGDPPopulation
             //{
             //    Console.WriteLine("errrrrrrrror");
             //}
-           
+
         }
 
 
