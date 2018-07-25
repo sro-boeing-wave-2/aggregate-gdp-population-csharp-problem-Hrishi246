@@ -19,9 +19,9 @@ namespace AggregateGDPPopulation
             POPULATION_2012 = 0;
         }
     }
-    public class Program
+    public class fileProcessing
     {
-        public async Task<string> Reader(string filepath)
+        public static async Task<string> Reader(string filepath)
         {
             string content;
             using (StreamReader reader = new StreamReader(filepath))
@@ -31,7 +31,7 @@ namespace AggregateGDPPopulation
             return content;
         }
 
-        public async Task Writer(Dictionary<string, Aggregate> finalsolution)
+        public static async Task Writer(Dictionary<string, Aggregate> finalsolution)
         {
             string outputlocation = @"../../../../AggregateGDPPopulation/data/output.json";
             string outputJsonString = JsonConvert.SerializeObject(finalsolution);
@@ -42,88 +42,81 @@ namespace AggregateGDPPopulation
 
         }
 
+    }
 
 
-        public async Task solution()
+    public class GDPaggregate
+    {
+        
+        public static void addExistingContinenetInfo(Dictionary<string, Aggregate> output, string continent,string[] RowOfData, int IndexOfCountry, int GDP, int POPULATION)
+        {
+           
+            {
+                // Console.WriteLine(mapper.GetValue(RowOfData[IndexOfCountry].ToString()); 
+                output[continent].POPULATION_2012 += float.Parse(RowOfData[GDP]);
+                output[continent].GDP_2012 += float.Parse(RowOfData[POPULATION]);
+            }
+
+        }
+
+
+        public static void addCurrentContinenetInfo(Dictionary<string, Aggregate> output, string continent, string[] RowOfData, int IndexOfCountry, int GDP, int POPULATION)
+        {
+            
+            {
+                Aggregate agr = new Aggregate() { POPULATION_2012 = float.Parse(RowOfData[POPULATION]), GDP_2012 = float.Parse(RowOfData[GDP]) };
+                output.Add(continent, agr);
+
+            }
+
+        }
+
+
+        public static async Task solution()
         {
             string dataFilepath = @"../../../../AggregateGDPPopulation/data/datafile.csv";
             string mappinFilepath = @"../../../../AggregateGDPPopulation/data/mapping.json";
-            var readTask1 = Reader(dataFilepath);
-            var readTask2 = Reader(mappinFilepath);
+            var readTask1 = fileProcessing.Reader(dataFilepath);
+            var readTask2 = fileProcessing.Reader(mappinFilepath);
             await Task.WhenAll(readTask1, readTask2);
             string[] InputData = (readTask1.Result).Split('\n');
 
-
             JObject mapper = JObject.Parse(readTask2.Result);
-            //Console.WriteLine(mapper.GetValue("India"));
-            //string mappingstring = mapper.ToString();
-
-            //Dictionary<string, string> countryContinetMap = JsonConvert.DeserializeObject<Dictionary<string, string>>(mappingstring);
-            Dictionary<string, Aggregate> output = new Dictionary<string, Aggregate>();
-
-
-            string[] RowOfData;
             string header = InputData[0];
+            string[] RowOfData;
+            Dictionary<string, Aggregate> output = new Dictionary<string, Aggregate>();
             string[] headers = header.Replace("\"", string.Empty).Trim().Split(',');
-
-
-
             int IndexOfCountry = Array.IndexOf(headers, "Country Name");
             int GDP = Array.IndexOf(headers, "GDP Billions (USD) 2012");
             int POPULATION = Array.IndexOf(headers, "Population (Millions) 2012");
-            // Console.WriteLine("{0} {1} {2}", IndexOfCountry, GDP, POPULATION);
-
-
-
-            for (int i = 1; i < InputData.Length - 1; i++)
+            for (int i = 1; i < InputData.Length - 2; i++)
             {
                 RowOfData = InputData[i].Replace("\"", string.Empty).Trim().Split(',');
-                //Console.WriteLine(RowOfData[0]);
+                
+                string continent = mapper.GetValue(RowOfData[IndexOfCountry]).ToString();
+                // Console.WriteLine(RowOfData[1]);
 
-                //countryContinetMap[RowOfData[IndexOfCountry]]
-
-                try
-                {
-                    if (output.ContainsKey(mapper.GetValue(RowOfData[IndexOfCountry]).ToString()) == true)
-                    {
-                        // Console.WriteLine(mapper.GetValue(RowOfData[IndexOfCountry].ToString()); 
-                        output[mapper.GetValue(RowOfData[IndexOfCountry]).ToString()].POPULATION_2012 += float.Parse(RowOfData[GDP]);
-                        output[mapper.GetValue(RowOfData[IndexOfCountry]).ToString()].GDP_2012 += float.Parse(RowOfData[POPULATION]);
-                    }
-                    else
-                    {
-                        Aggregate agr = new Aggregate() { POPULATION_2012 = float.Parse(RowOfData[POPULATION]), GDP_2012 = float.Parse(RowOfData[GDP]) };
-                        output.Add(mapper.GetValue(RowOfData[IndexOfCountry]).ToString(), agr);
-
-                    }
-                }
-                catch(Exception)
-                {
-                    Console.WriteLine("error");
+                try { 
+                     if (output.ContainsKey(continent))
+                     {
+                        addExistingContinenetInfo(output,continent, RowOfData, IndexOfCountry, GDP,  POPULATION);
+                     }
+                    else { 
+                            addCurrentContinenetInfo(output, continent, RowOfData, IndexOfCountry, GDP,  POPULATION);
+                         }
                 }
 
+                catch {
+                           Console.WriteLine("error");
+                      }
 
-
-
-
-                //Console.WriteLine(RowOfData[GDP]);
-                //Console.WriteLine(RowOfData[POPULATION]);
             }
 
-            await Writer(output);
-            //var outputJsonString = JsonConvert.SerializeObject(output);
-            ////Console.WriteLine(outputJsonString);
-
-            //try
-            //{
-            //    File.WriteAllText("D:/workspace/C# Assignments/aggregate-gdp-population-csharp-problem-Hrishi246/AggregateGDPPopulation/data/output.json", outputJsonString);
-            //}
-            //catch (Exception)
-            //{
-            //    Console.WriteLine("errrrrrrrror");
-            //}
-
+            await fileProcessing.Writer(output);
         }
+
+
+
 
 
     }
@@ -133,8 +126,4 @@ namespace AggregateGDPPopulation
 
 
 
-
-
-
 }
-

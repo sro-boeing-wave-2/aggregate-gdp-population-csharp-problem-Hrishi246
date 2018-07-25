@@ -9,10 +9,10 @@ namespace AggregateGDPPopulation.Tests
         [Fact]
         public async void Test1()
         {
-            Program p1 = new Program();
-            await p1.solution();
-            var actual = await p1.Reader(@"../../../../AggregateGDPPopulation/data/output.json");
-            var expected = await p1.Reader(@"../../../expected-output.json");
+            GDPaggregate G1 = new GDPaggregate();
+            await GDPaggregate.solution();
+            var actual = await fileProcessing.Reader(@"../../../../AggregateGDPPopulation/data/output.json");
+            var expected = await fileProcessing.Reader(@"../../../expected-output.json");
             JObject actualJson = JObject.Parse(actual);
             JObject expectedJson = JObject.Parse(expected);
             Assert.Equal(actualJson, expectedJson);
